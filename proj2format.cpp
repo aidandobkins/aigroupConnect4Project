@@ -48,7 +48,7 @@ void playGame()
 	{
 		cout << "What Depth do you want? ";
 		cin >> depth;
-		if(depth > 8 || depth < 1)
+		if(depth != 2 & depth != 4 & depth != 8)
 			errorMessage(1);
 		else
 			break;
@@ -490,7 +490,7 @@ void errorMessage(int e)
 {
 	if(e == 1)
     {
-		cout << "Enter a value between 1 and 8." << endl;
+		cout << "Enter a correct depth value (2, 4, or 8)." << endl;
 	}
 	else if(e == 2)
 	{
