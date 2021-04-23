@@ -86,10 +86,8 @@ void playGame() {
 		else if (currentPlayer == COMPUTER1) { // player move
 			makeMove(board, aiMove(), COMPUTER1);
 		}
-		cout << turns << endl;
-		if (turns == NUM_ROW * NUM_COL) { // if max number of turns reached
+		else if (turns == NUM_ROW * NUM_COL) { // if max number of turns reached
 			gameOver = true;
-			break;
 		}
 		gameOver = winningMove(board, currentPlayer); // check if player won
 		if(currentPlayer == 1)
@@ -125,6 +123,7 @@ void makeMove(vector<vector<int> >& b, int c, unsigned int p) {
 			break;
 		}
 	}
+	
 }
 
 /**
@@ -331,6 +330,7 @@ int scoreSet(vector<unsigned int> v, unsigned int p) {
 			return heurFunction3(good, bad, empty);
 	}
 	
+
 }
 
 /**
@@ -353,23 +353,23 @@ int heurFunction(unsigned int g, unsigned int b, unsigned int z) {
 
 int heurFunction2(unsigned int g, unsigned int b, unsigned int z) {
 	int score = 0;
-	if (g == 4) { score += 5000001; } // preference to go for winning move vs. block
-	else if (g == 3 && z == 1) { score += 1000; }
+	if (g == 4) { score += 500001; } // preference to go for winning move vs. block
+	else if (g == 3 && z == 1) { score += 5000; }
 	else if (g == 2 && z == 2) { score += 500; }
 	else if (b == 2 && z == 2) { score -= 501; } // preference to block
-	else if (b == 3 && z == 1) { score -= 1001; } // preference to block
-	else if (b == 4) { score -= 50000000; }
+	else if (b == 3 && z == 1) { score -= 5001; } // preference to block
+	else if (b == 4) { score -= 500000; }
 	return score;
 }
 
 int heurFunction3(unsigned int g, unsigned int b, unsigned int z) {
 	int score = 0;
-	if (g == 4) { score += 501; } // preference to go for winning move vs. block
-	else if (g == 3 && z == 1) { score += 100; }
-	else if (g == 2 && z == 2) { score += 30; }
-	else if (b == 2 && z == 2) { score -= 101; } // preference to block
-	else if (b == 3 && z == 1) { score -= 31; } // preference to block
-	else if (b == 4) { score -= 500; }
+	if (g == 4) { score += 500001; } // preference to go for winning move vs. block
+	else if (g == 3 && z == 1) { score += 5000; }
+	else if (g == 2 && z == 2) { score += 500; }
+	else if (b == 2 && z == 2) { score -= 501; } // preference to block
+	else if (b == 3 && z == 1) { score -= 5001; } // preference to block
+	else if (b == 4) { score -= 500000; }
 	return score;
 }
 
