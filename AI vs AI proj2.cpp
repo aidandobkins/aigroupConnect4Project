@@ -26,13 +26,13 @@ int heurFunction(unsigned int, unsigned int, unsigned int);
 // I'll be real and say this is just to avoid magic numbers
 unsigned int NUM_COL = 7; // how wide is the board
 unsigned int NUM_ROW = 6; // how tall
-unsigned int COMPUTER2 = 1; // player number
-unsigned int COMPUTER = 2; // AI number
+unsigned int COMPUTER1 = 1; // player number
+unsigned int COMPUTER2 = 2; // AI number
 unsigned int depth = 2; // the default "difficulty" of the computer controlled AI
 
 bool gameOver = false; // flag for if game is over
 unsigned int turns = 0; // count for # turns
-unsigned int currentPlayer = COMPUTER2; // current player
+unsigned int currentPlayer = COMPUTER1; // current player
 
 vector<vector<int>> board(NUM_ROW, vector<int>(NUM_COL)); // the game board
 
@@ -54,11 +54,11 @@ void playGame() {
 
 	printBoard(board); // print initial board
 	while (!gameOver) { // while no game over state
-		if (currentPlayer == COMPUTER) { // AI move
-			makeMove(board, aiMove(currentPlayer), COMPUTER);
-		}
-		else if (currentPlayer == COMPUTER2) { // player move
+		if (currentPlayer == COMPUTER2) { // AI move
 			makeMove(board, aiMove(currentPlayer), COMPUTER2);
+		}
+		else if (currentPlayer == COMPUTER1) { // player move
+			makeMove(board, aiMove(currentPlayer), COMPUTER1);
 		}
 		else if (turns == NUM_ROW * NUM_COL) { // if max number of turns reached
 			gameOver = true;
@@ -77,7 +77,7 @@ void playGame() {
 		cout << "Draw!" << endl;
 	}
 	else { // otherwise, someone won
-		cout << ((currentPlayer == COMPUTER2) ? "AI 1 Wins!" : "AI 2 Wins!") << endl;
+		cout << ((currentPlayer == COMPUTER1) ? "AI 1 Wins!" : "AI 2 Wins!") << endl;
 	}
 
 	system("PAUSE");
@@ -134,8 +134,8 @@ int userMove() {
  * uses minimax to find ideal move
  * @return - the column number for best move
  */
-int aiMove(int currentplayer) {
-	return miniMax(board, depth, 0 - INT_MAX, INT_MAX, currentplayer)[1];
+int aiMove(int currentPlayer) {
+	return miniMax(board, depth, 0 - INT_MAX, INT_MAX, currentPlayer)[1];
 }
 
 /**
@@ -159,18 +159,18 @@ array<int, 2> miniMax(vector<vector<int> > &b, unsigned int d, int alf, int bet,
 	 */
 	if (d == 0 || d >= (NUM_COL * NUM_ROW) - turns) {
 		// get current score to return
-		return array<int, 2>{tabScore(b, COMPUTER), -1};
+		return array<int, 2>{tabScore(b, COMPUTER2), -1};
 	}
-	if (p == COMPUTER) { // if AI player
+	if (p == COMPUTER2) { // if AI player
 		array<int, 2> moveSoFar = {INT_MIN, -1}; // since maximizing, we want lowest possible value
-		if (winningMove(b, COMPUTER2)) { // if player about to win
+		if (winningMove(b, COMPUTER1)) { // if player about to win
 			return moveSoFar; // force it to say it's worst possible score, so it knows to avoid move
 		} // otherwise, business as usual
 		for (unsigned int c = 0; c < NUM_COL; c++) { // for each possible move
 			if (b[NUM_ROW - 1][c] == 0) { // but only if that column is non-full
 				vector<vector<int> > newBoard = copyBoard(b); // make a copy of the board
 				makeMove(newBoard, c, p); // try the move
-				int score = miniMax(newBoard, d - 1, alf, bet, COMPUTER2)[0]; // find move based on that new board state
+				int score = miniMax(newBoard, d - 1, alf, bet, COMPUTER1)[0]; // find move based on that new board state
 				if (score > moveSoFar[0]) { // if better score, replace it, and consider that best move (for now)
 					moveSoFar = {score, (int)c};
 				}
@@ -182,14 +182,14 @@ array<int, 2> miniMax(vector<vector<int> > &b, unsigned int d, int alf, int bet,
 	}
 	else {
 		array<int, 2> moveSoFar = {INT_MAX, -1}; // since PLAYER is minimized, we want moves that diminish this score
-		if (winningMove(b, COMPUTER)) {
+		if (winningMove(b, COMPUTER2)) {
 			return moveSoFar; // if about to win, report that move as best
 		}
 		for (unsigned int c = 0; c < NUM_COL; c++) {
 			if (b[NUM_ROW - 1][c] == 0) {
 				vector<vector<int> > newBoard = copyBoard(b);
 				makeMove(newBoard, c, p);
-				int score = miniMax(newBoard, d - 1, alf, bet, COMPUTER)[0];
+				int score = miniMax(newBoard, d - 1, alf, bet, COMPUTER2)[0];
 				if (score < moveSoFar[0]) {
 					moveSoFar = {score, (int)c};
 				}
@@ -277,7 +277,7 @@ int scoreSet(vector<unsigned int> v, unsigned int p) {
 	unsigned int empty = 0; // neutral spots
 	for (unsigned int i = 0; i < v.size(); i++) { // just enumerate how many of each
 		good += (v[i] == p) ? 1 : 0;
-		bad += (v[i] == COMPUTER2 || v[i] == COMPUTER) ? 1 : 0;
+		bad += (v[i] == COMPUTER1 || v[i] == COMPUTER2) ? 1 : 0;
 		empty += (v[i] == 0) ? 1 : 0;
 	}
 	// bad was calculated as (bad + good), so remove good
