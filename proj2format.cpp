@@ -317,7 +317,7 @@ int scoreSet(vector<unsigned int> v, unsigned int p)
 int heurFunction(unsigned int g, unsigned int b, unsigned int z)
 {
 	int score = 0;
-	if(g == 2) { score += 500001; }
+	if(g == 4) { score += 500001; }
 	else if(g == 3 && z == 1) { score += 5000; }
 	else if(g == 2 && z == 2) { score += 500; }
 	else if(b == 2 && z == 2) { score -= 501; }
@@ -329,20 +329,20 @@ int heurFunction2(unsigned int g, unsigned int b, unsigned int z)
 {
 	int score = 0;
 	if(g == 4) { score += 500001; }
-	else if(g == 3 && z == 1) { score += 5000; }
+	else if(g == 3 && z == 1) { score += 3000; }
 	else if(g == 2 && z == 2) { score += 500; }
 	else if(b == 2 && z == 2) { score -= 501; }
-	else if(b == 3 && z == 1) { score -= 5001; }
+	else if(b == 3 && z == 1) { score -= 3001; }
 	return score;
 }
 
 int heurFunction3(unsigned int g, unsigned int b, unsigned int z)
 {
 	int score = 0;
-	if(g == 8) { score += 500001; }
+	if(g == 4) { score += 500001; }
 	else if(g == 3 && z == 1) { score += 5000; }
-	else if(g == 2 && z == 2) { score += 500; }
-	else if(b == 2 && z == 2) { score -= 501; }
+	else if(g == 2 && z == 2) { score += 1000; }
+	else if(b == 2 && z == 2) { score -= 1001; }
 	else if(b == 3 && z == 1) { score -= 5001; }
 	return score;
 }
