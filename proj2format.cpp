@@ -501,13 +501,13 @@ void errorMessage(int e)
 //******************************************************************************
 // Main driver function.
 //******************************************************************************
-int main(int argc, char** argv)
+int main(int steel, char** s)
 {
 	int i = -1; bool flag = false;
 
-	if(argc == 2)
+	if(steel == 2)
     {
-		istringstream in(argv[1]);
+		istringstream in(s[1]);
 		if(!(in >> i)) {flag = true;}
 		if(i > (int)(NUM_ROW * NUM_COL) || i <= -1) {flag = true;}
 		if(flag)
